@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quartzelec Tender Input Form</title>
+<style>
+:root {
+  --qe-black:#111111;
+  --qe-dark:#33383b;
+  --qe-red:#ef2b24;
+  --qe-grey:#f3f4f5;
+  --qe-mid:#d9dddf;
+  --qe-text:#222;
+  --qe-white:#fff;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  color:var(--qe-text);
+  background:linear-gradient(180deg,#fff 0%,#f7f7f7 100%);
+  font-size:14px;
+}
+.header {
+  background:var(--qe-black);
+  color:#fff;
+  padding:22px 28px;
+  display:grid;
+  grid-template-columns: 360px 1fr 310px;
+  gap:24px;
+  align-items:center;
+  border-bottom:6px solid var(--qe-red);
+}
+.brand { display:flex; gap:16px; align-items:center; }
+.logo-box {
+  width:76px; height:76px; background:var(--qe-red); border-radius:3px;
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+.logo-box img { width:76px; height:76px; object-fit:cover; }
+.wordmark { font-size:30px; font-weight:700; letter-spacing:3px; line-height:1; }
+.tagline { margin-top:8px; font-size:13px; color:#f0f0f0; }
+.title { text-align:center; }
+.title h1 { margin:0 0 8px; font-size:28px; letter-spacing:.5px; }
+.title p { margin:0; color:#f0f0f0; line-height:1.35; }
+.contact { font-size:13px; line-height:1.45; border-left:1px solid #777; padding-left:22px; }
+.toolbar {
+  display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  padding:14px 20px; background:#fff; border-bottom:1px solid var(--qe-mid);
+  position:sticky; top:0; z-index:10;
+}
+.toolbar .note { color:#555; align-self:center; }
+button {
+  border:0; border-radius:3px; padding:9px 14px; cursor:pointer;
+  font-weight:700; font-size:13px;
+}
+.primary { background:var(--qe-red); color:#fff; }
+.secondary { background:var(--qe-black); color:#fff; }
+.light { background:#e8e8e8; color:#111; }
+.container { padding:20px; max-width:1800px; margin:0 auto; }
+.grid {
+  display:grid;
+  grid-template-columns: 1.05fr 1fr 1fr 1fr;
+  gap:14px;
+  align-items:start;
+}
+.section {
+  background:#fff;
+  border:1px solid var(--qe-mid);
+  border-radius:5px;
+  overflow:hidden;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.section h2 {
+  margin:0;
+  background:var(--qe-black);
+  color:#fff;
+  font-size:14px;
+  padding:9px 12px;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+  border-left:6px solid var(--qe-red);
+}
+.section .body { padding:12px; }
+.field {
+  display:grid;
+  grid-template-columns: 155px 1fr;
+  gap:8px;
+  align-items:center;
+  margin-bottom:7px;
+}
+label { font-size:13px; }
+input, select, textarea {
+  width:100%; border:1px solid #cfd4d6; border-radius:4px;
+  padding:7px 8px; font:inherit; background:#fff;
+}
+textarea { resize:vertical; min-height:70px; }
+.checkgrid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px 14px;
+}
+.check {
+  display:flex; gap:8px; align-items:center; min-height:22px;
+}
+.check input { width:16px; height:16px; }
+.fullwidth { grid-column:1 / -1; }
+.wide { grid-column: span 2; }
+.xwide { grid-column: span 4; }
+.nice-grid {
+  display:grid; grid-template-columns: repeat(6, 1fr); gap:14px;
+}
+.small-field label { display:block; margin-bottom:5px; }
+.footer {
+  background:var(--qe-black); color:#fff; margin-top:10px;
+  padding:14px 28px; display:flex; justify-content:space-between; gap:20px;
+  border-top:6px solid var(--qe-red);
+}
+.footer em { color:#f5f5f5; }
+.required::after { content:" *"; color:var(--qe-red); font-weight:700; }
+@media (max-width:1200px) {
+  .header { grid-template-columns:1fr; text-align:left; }
+  .title { text-align:left; }
+  .contact { border-left:0; padding-left:0; }
+  .grid { grid-template-columns:1fr 1fr; }
+  .xwide { grid-column: span 2; }
+  .nice-grid { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:720px) {
+  .grid { grid-template-columns:1fr; }
+  .wide,.xwide { grid-column: span 1; }
+  .field { grid-template-columns:1fr; }
+  .checkgrid { grid-template-columns:1fr; }
+  .nice-grid { grid-template-columns:1fr; }
+  .wordmark { font-size:24px; }
+}
+@media print {
+  .toolbar, button { display:none !important; }
+  body { background:#fff; }
+  .section { break-inside:avoid; box-shadow:none; }
+  .header,.footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="brand">
+    <div class="logo-box"><img src="data:image/png;base64,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" alt="Quartzelec logo"></div>
+    <div>
+      <div class="wordmark">QUARTZELEC</div>
+      <div class="tagline">Engineering Excellence. Since 1896.</div>
+    </div>
+  </div>
+  <div class="title">
+    <h1>TENDER INPUT FORM</h1>
+    <p>Please complete all relevant sections to help prepare accurate and competitive quotations.</p>
+  </div>
+  <div class="contact">
+    <strong>Quartzelec Ltd</strong><br>
+    Castle Mound Way, Central Park, Rugby<br>
+    CV23 0WB, UK<br>
+    +44 (0) 1788 512512<br>
+    info@quartzelec.com · www.quartzelec.com
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="note"><strong>Offline form:</strong> data is saved only in this browser. Use “Export JSON” and upload the file into ChatGPT with the RFQ/specification.</div>
+  <div>
+    <button class="primary" onclick="exportJSON()">Export JSON</button>
+    <button class="secondary" onclick="window.print()">Print / Save PDF</button>
+    <button class="light" onclick="clearForm()">Clear</button>
+  </div>
+</div>
+
+<main class="container">
+<form id="tenderForm">
+<div class="grid">
+
+<section class="section">
+<h2>1. Customer Information</h2><div class="body">
+  <div class="field"><label class="required">Customer company name</label><input name="customer_company"></div>
+  <div class="field"><label>End user</label><input name="end_user"></div>
+  <div class="field"><label>Site owner</label><input name="site_owner"></div>
+  <div class="field"><label class="required">Customer contact name</label><input name="customer_contact"></div>
+  <div class="field"><label>Job title</label><input name="job_title"></div>
+  <div class="field"><label>Email</label><input name="email" type="email"></div>
+  <div class="field"><label>Telephone</label><input name="telephone"></div>
+  <div class="field"><label>Site address</label><textarea name="site_address"></textarea></div>
+  <div class="field"><label>Invoice address</label><textarea name="invoice_address"></textarea></div>
+</div></section>
+
+<section class="section">
+<h2>2. Project Information</h2><div class="body">
+  <div class="field"><label>Quartzelec quotation number</label><input name="qe_quote_no"></div>
+  <div class="field"><label>Customer RFQ number</label><input name="rfq_no"></div>
+  <div class="field"><label>Customer PO reference</label><input name="po_ref"></div>
+  <div class="field"><label class="required">Project title</label><input name="project_title"></div>
+  <div class="field"><label>Project name</label><input name="project_name"></div>
+  <div class="field"><label>Tender due date</label><input name="tender_due_date" type="date"></div>
+  <div class="field"><label>Expected order date</label><input name="expected_order_date" type="date"></div>
+  <div class="field"><label>Outage dates</label><input name="outage_dates"></div>
+  <div class="field"><label>Required completion date</label><input name="completion_date" type="date"></div>
+  <div class="field"><label>Quotation type</label><select name="quotation_type"><option></option><option>Budgetary</option><option>Firm</option></select></div>
+  <div class="field"><label>Price basis</label><select name="price_basis_type"><option></option><option>Lump Sum</option><option>Time & Materials</option><option>Schedule of Rates</option></select></div>
+</div></section>
+
+<section class="section wide">
+<h2>3. Machine Information</h2><div class="body">
+  <div class="field"><label class="required">Machine type</label><select name="machine_type"><option></option><option>Turbo-generator</option><option>Hydro generator</option><option>4 pole generator</option><option>HV motor</option><option>Other</option></select></div>
+  <div class="field"><label>OEM</label><input name="oem"></div>
+  <div class="field"><label>Model</label><input name="model"></div>
+  <div class="field"><label>Serial number</label><input name="serial_number"></div>
+  <div class="field"><label>Year of manufacture</label><input name="year"></div>
+  <div class="field"><label>Rated power</label><input name="rated_power" placeholder="MW / MVA / kW"></div>
+  <div class="field"><label>Voltage</label><input name="voltage" placeholder="kV"></div>
+  <div class="field"><label>Current</label><input name="current" placeholder="A"></div>
+  <div class="field"><label>Frequency</label><input name="frequency" placeholder="Hz"></div>
+  <div class="field"><label>Speed</label><input name="speed" placeholder="rpm"></div>
+  <div class="field"><label>Power factor</label><input name="power_factor"></div>
+  <div class="field"><label>Cooling type</label><select name="cooling_type"><option></option><option>Air</option><option>Hydrogen</option><option>Water</option><option>TEWAC</option><option>Other</option></select></div>
+  <div class="field"><label>Insulation class</label><input name="insulation_class"></div>
+  <div class="field"><label>Excitation type</label><select name="excitation_type"><option></option><option>Brushless</option><option>Static</option><option>Slip rings</option><option>PMG</option><option>Other</option></select></div>
+  <div class="field"><label>Rotor weight</label><input name="rotor_weight"></div>
+  <div class="field"><label>Stator weight</label><input name="stator_weight"></div>
+  <div class="field"><label>Indoor / Outdoor</label><select name="indoor_outdoor"><option></option><option>Indoor</option><option>Outdoor</option></select></div>
+  <div class="field"><label>Acoustic enclosure</label><select name="acoustic_enclosure"><option></option><option>Yes</option><option>No</option><option>Unknown</option></select></div>
+</div></section>
+
+<section class="section">
+<h2>4. Scope of Work</h2><div class="body checkgrid">
+<label class="check"><input type="checkbox" name="scope" value="Annual inspection">Annual inspection</label><label class="check"><input type="checkbox" name="scope" value="Minor inspection">Minor inspection</label><label class="check"><input type="checkbox" name="scope" value="Major inspection">Major inspection</label><label class="check"><input type="checkbox" name="scope" value="Robotic inspection">Robotic inspection</label><label class="check"><input type="checkbox" name="scope" value="Rotor removal">Rotor removal</label><label class="check"><input type="checkbox" name="scope" value="Retaining ring removal">Retaining ring removal</label><label class="check"><input type="checkbox" name="scope" value="PAUT">PAUT</label><label class="check"><input type="checkbox" name="scope" value="EL CID">EL CID</label><label class="check"><input type="checkbox" name="scope" value="Tan Delta">Tan Delta</label><label class="check"><input type="checkbox" name="scope" value="Partial Discharge">Partial Discharge</label><label class="check"><input type="checkbox" name="scope" value="RSO">RSO</label><label class="check"><input type="checkbox" name="scope" value="Flux probe">Flux probe</label><label class="check"><input type="checkbox" name="scope" value="Shaft voltage">Shaft voltage</label><label class="check"><input type="checkbox" name="scope" value="Wedge tightness">Wedge tightness</label><label class="check"><input type="checkbox" name="scope" value="Cryogenic cleaning">Cryogenic cleaning</label><label class="check"><input type="checkbox" name="scope" value="Rotor rewind">Rotor rewind</label><label class="check"><input type="checkbox" name="scope" value="Stator rewind">Stator rewind</label><label class="check"><input type="checkbox" name="scope" value="Commissioning">Commissioning</label><label class="check"><input type="checkbox" name="scope" value="Engineering support">Engineering support</label><label class="check"><input type="checkbox" name="scope" value="Supply of spare parts">Supply of spare parts</label><label class="check"><input type="checkbox" name="scope" value="Condition monitoring">Condition monitoring</label>
+  <label class="check"><input type="checkbox" name="scope" value="Other">Other</label>
+  <input class="fullwidth" name="scope_other" placeholder="Other scope / notes">
+</div></section>
+
+<section class="section">
+<h2>5. Customer Responsibilities</h2><div class="body checkgrid">
+<label class="check"><input type="checkbox" name="customer_responsibilities" value="Crane available">Crane available</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Rotor removal tooling">Rotor removal tooling</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Rotor stands">Rotor stands</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Forklift">Forklift</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Scaffolding">Scaffolding</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Workshop">Workshop</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Power supply">Power supply</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Compressed air">Compressed air</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Cleaning">Cleaning</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Lifting personnel">Lifting personnel</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Mechanical labour">Mechanical labour</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Electrical labour">Electrical labour</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Accommodation">Accommodation</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="Site office">Site office</label><label class="check"><input type="checkbox" name="customer_responsibilities" value="PPE requirements">PPE requirements</label>
+  <label class="check"><input type="checkbox" name="customer_responsibilities" value="Other">Other</label>
+  <input class="fullwidth" name="responsibilities_other" placeholder="Other customer responsibilities">
+</div></section>
+
+<section class="section wide">
+<h2>6. Commercial Information</h2><div class="body">
+  <div class="field"><label>Currency</label><select name="currency"><option></option><option>EUR</option><option>GBP</option><option>USD</option><option>PLN</option></select></div>
+  <div class="field"><label>Incoterms</label><select name="incoterms"><option></option><option>EXW</option><option>FCA</option><option>DAP</option><option>DDP</option><option>Other</option></select></div>
+  <div class="field"><label>VAT applicability</label><select name="vat"><option></option><option>VAT excluded</option><option>VAT included</option><option>Not applicable</option><option>To be confirmed</option></select></div>
+  <div class="field"><label>Payment terms</label><input name="payment_terms"></div>
+  <div class="field"><label>Retention</label><input name="retention" placeholder="% / details"></div>
+  <div class="field"><label>Performance bond</label><select name="performance_bond"><option></option><option>Required</option><option>Not required</option><option>To be confirmed</option></select></div>
+  <div class="field"><label>Warranty period</label><input name="warranty" placeholder="months"></div>
+  <div class="field"><label>Validity of quotation</label><input name="validity" placeholder="days"></div>
+  <div class="field"><label>LDs applicable?</label><select name="lds"><option></option><option>Yes</option><option>No</option><option>To be confirmed</option></select></div>
+  <div class="field"><label>Insurance requirements</label><input name="insurance_requirements"></div>
+</div></section>
+
+<section class="section">
+<h2>7. Programme</h2><div class="body">
+  <div class="field"><label>Mobilisation</label><input name="mobilisation" type="date"></div>
+  <div class="field"><label>Site duration</label><input name="site_duration" placeholder="days / weeks"></div>
+  <div class="field"><label>No. of QE engineers</label><input name="qe_engineers"></div>
+  <div class="field"><label>Working hours</label><input name="working_hours"></div>
+  <div class="field"><label>Shift pattern</label><input name="shift_pattern"></div>
+  <div class="field"><label>Parts delivery</label><input name="parts_delivery" type="date"></div>
+  <div class="field"><label>Manufacturing lead time</label><input name="manufacturing_lead_time"></div>
+</div></section>
+
+<section class="section">
+<h2>8. Technical Documents Available</h2><div class="body checkgrid">
+<label class="check"><input type="checkbox" name="documents_available" value="Nameplate photo">Nameplate photo</label><label class="check"><input type="checkbox" name="documents_available" value="GA drawing">GA drawing</label><label class="check"><input type="checkbox" name="documents_available" value="Manual">Manual</label><label class="check"><input type="checkbox" name="documents_available" value="Previous reports">Previous reports</label><label class="check"><input type="checkbox" name="documents_available" value="Test reports">Test reports</label><label class="check"><input type="checkbox" name="documents_available" value="Photos of machine">Photos of machine</label><label class="check"><input type="checkbox" name="documents_available" value="Rotor drawings">Rotor drawings</label><label class="check"><input type="checkbox" name="documents_available" value="Stator drawings">Stator drawings</label><label class="check"><input type="checkbox" name="documents_available" value="Electrical drawings">Electrical drawings</label><label class="check"><input type="checkbox" name="documents_available" value="Protection drawings">Protection drawings</label><label class="check"><input type="checkbox" name="documents_available" value="Excitation drawings">Excitation drawings</label><label class="check"><input type="checkbox" name="documents_available" value="Previous outage report">Previous outage report</label>
+  <label class="check"><input type="checkbox" name="documents_available" value="Other">Other</label>
+  <input class="fullwidth" name="documents_other" placeholder="Other documents">
+</div></section>
+
+<section class="section">
+<h2>9. Assumptions / Exclusions</h2><div class="body">
+  <label>Assumptions, exclusions, special conditions or unclear points</label>
+  <textarea name="assumptions_exclusions" style="min-height:160px"></textarea>
+</div></section>
+
+<section class="section">
+<h2>10. Quartzelec Contacts</h2><div class="body">
+  <div class="field"><label>Sales engineer</label><input name="qe_sales_engineer"></div>
+  <div class="field"><label>Project manager</label><input name="qe_project_manager"></div>
+  <div class="field"><label>Proposal author</label><input name="qe_proposal_author"></div>
+  <div class="field"><label>Operations manager</label><input name="qe_operations_manager"></div>
+  <div class="field"><label>Revision number</label><input name="revision_number"></div>
+  <div class="field"><label>Date</label><input name="form_date" type="date"></div>
+</div></section>
+
+<section class="section xwide">
+<h2>Nice-to-have Information</h2><div class="body nice-grid">
+  <div class="small-field"><label>Local language</label><input name="local_language"></div>
+  <div class="small-field"><label>Preferred quotation language</label><input name="quotation_language"></div>
+  <div class="small-field"><label>Preferred report language</label><input name="report_language"></div>
+  <div class="small-field"><label>Time zone</label><input name="time_zone"></div>
+  <div class="small-field"><label>GPS coordinates</label><input name="gps"></div>
+  <div class="small-field"><label>Security clearance required?</label><select name="security_clearance"><option></option><option>Yes</option><option>No</option><option>To be confirmed</option></select></div>
+  <div class="small-field"><label>Site HSE induction required?</label><select name="hse_induction"><option></option><option>Yes</option><option>No</option><option>To be confirmed</option></select></div>
+  <div class="small-field"><label>Export restrictions</label><select name="export_restrictions"><option></option><option>Yes</option><option>No</option><option>To be confirmed</option></select></div>
+  <div class="small-field"><label>Customer budget / target price</label><input name="customer_budget"></div>
+  <div class="small-field"><label>Competitors known?</label><input name="competitors"></div>
+  <div class="small-field"><label>Chance of success</label><input name="chance_success" placeholder="%"></div>
+</div></section>
+
+</div>
+</form>
+</main>
+
+<footer class="footer">
+  <span>Engineering Excellence. Since 1896.</span>
+  <em>This form is for internal use to capture the information required to prepare accurate quotations.</em>
+  <span>www.quartzelec.com</span>
+</footer>
+
+<script>
+const form = document.getElementById('tenderForm');
+const KEY = 'quartzelec_tender_input_form_v1';
+
+function formToObject() {
+  const data = {};
+  const fd = new FormData(form);
+  for (const [key, value] of fd.entries()) {
+    if (data[key]) {
+      if (!Array.isArray(data[key])) data[key] = [data[key]];
+      data[key].push(value);
+    } else {
+      data[key] = value;
+    }
+  }
+  for (const cb of form.querySelectorAll('input[type=checkbox]')) {
+    if (!data[cb.name]) data[cb.name] = [];
+  }
+  data.exported_at = new Date().toISOString();
+  data.form_name = 'Quartzelec Tender Input Form';
+  return data;
+}
+
+function saveLocal() {
+  localStorage.setItem(KEY, JSON.stringify(formToObject()));
+}
+
+function loadLocal() {
+  const raw = localStorage.getItem(KEY);
+  if (!raw) return;
+  const data = JSON.parse(raw);
+  for (const [key, value] of Object.entries(data)) {
+    const fields = form.querySelectorAll(`[name="${CSS.escape(key)}"]`);
+    if (!fields.length) continue;
+    if (fields[0].type === 'checkbox') {
+      const values = Array.isArray(value) ? value : [value];
+      fields.forEach(f => f.checked = values.includes(f.value));
+    } else {
+      fields[0].value = value || '';
+    }
+  }
+}
+
+function exportJSON() {
+  const data = formToObject();
+  const project = (data.project_title || data.customer_company || 'tender-input').replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').toLowerCase();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `quartzelec-${project}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(a.href);
+}
+
+function clearForm() {
+  if (!confirm('Clear all fields saved in this browser?')) return;
+  form.reset();
+  localStorage.removeItem(KEY);
+}
+
+form.addEventListener('input', saveLocal);
+form.addEventListener('change', saveLocal);
+loadLocal();
+</script>
+</body>
+</html>
